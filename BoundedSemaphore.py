@@ -2,23 +2,22 @@ from multiprocessing import Process
 from multiprocessing import Value
 from multiprocessing import BoundedSemaphore
 from time import sleep 
+from random import random
 
 N = 8
 
 def task(common, tid, bounded_sem):
-    
-    a = 0
-    for i in range(100):
-        print(f"{tid}−{i}: Non−critical Section")
-        a += 1
-        print(f"{tid}−{i}: End of non−critical Section")
+    for i in range(10):
+        print(f"{tid}−{i}: Non−critical Section", flush = True)
+        sleep(random())
+        print(f"{tid}−{i}: End of non−critical Section", flush = True)
         bounded_sem.acquire()
-        print(f"{tid}−{i}: Critical section")
+        print(f"{tid}−{i}: Critical section", flush = True)
         v = common.value + 1
-        print(f"{tid}−{i}: Inside critical section")
+        print(f"{tid}−{i}: Inside critical section", flush = True)
+        sleep(random())
         common.value = v
-        sleep(0.1)
-        print(f"{tid}−{i}: End of critical section")
+        print(f"{tid}−{i}: End of critical section", flush = True)
         bounded_sem.release()
         
 def main():
